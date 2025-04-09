@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DebateSphere - Fact Checker Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4F46E5;
+            text-align: center;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border-left: 4px solid #4F46E5;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4F46E5;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        button {
+            background-color: #4F46E5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 10px auto;
+        }
+        button:hover {
+            background-color: #4338CA;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .claim-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        .verification-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .status-true {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .status-false {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .status-partially {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .status-misleading {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+        .status-unknown {
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+        .confidence-bar {
+            height: 10px;
+            background-color: #e5e7eb;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .confidence-level {
+            height: 100%;
+            background-color: #4F46E5;
+            border-radius: 5px;
+        }
+        .related-facts {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9fafb;
+            border-radius: 4px;
+        }
+        .fact-item {
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .fact-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4F46E5;
+        }
+        .sources {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .loading:after {
+            content: "...";
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+        .reason {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f9ff;
+            border-radius: 4px;
+            border-left: 4px solid #0ea5e9;
+        }
+        .counter-arguments {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff1f2;
+            border-radius: 4px;
+        }
+        .counter-argument-item {
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .counter-argument-item:before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DebateSphere Fact Checker Test</h1>
+        
+        <div class="test-section">
+            <div class="test-title">Test 1: Climate Change Claims</div>
+            <textarea id="climateText">Climate change is a hoax invented by scientists. The Earth's temperature has not increased in the last 20 years. The Arctic ice is actually growing, not shrinking. Carbon dioxide levels in the atmosphere are not higher than they've been in centuries.</textarea>
+            <button onclick="testClimateClaims()">Test Climate Claims</button>
+            <div id="climateResult" class="result">Results will appear here...</div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">Test 2: Vaccination Claims</div>
+            <textarea id="vaccineText">Vaccines cause autism in children. Vaccines have never been tested for safety. The flu vaccine is completely ineffective. Vaccines contain dangerous levels of mercury that can harm your brain.</textarea>
+            <button onclick="testVaccineClaims()">Test Vaccine Claims</button>
+            <div id="vaccineResult" class="result">Results will appear here...</div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">Test 3: COVID-19 Claims</div>
+            <textarea id="covidText">COVID-19 is just like the flu and no more dangerous. The virus was created in a laboratory. Face masks don't help prevent the spread of the virus. The vaccines were developed too quickly and are unsafe.</textarea>
+            <button onclick="testCovidClaims()">Test COVID-19 Claims</button>
+            <div id="covidResult" class="result">Results will appear here...</div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">Test 4: Custom Claims</div>
+            <textarea id="customText" placeholder="Enter your own claims to test..."></textarea>
+            <button onclick="testCustomClaims()">Test Custom Claims</button>
+            <div id="customResult" class="result">Results will appear here...</div>
+        </div>
+    </div>
+
+    <script>
+        async function analyzeClaims(text, resultDivId) {
+            const resultsDiv = document.getElementById(resultDivId);
+            resultsDiv.innerHTML = '<div class="loading">Analyzing claims</div>';
+            
+            try {
+                const response = await fetch("http://127.0.0.1:5000/api/analyze/claims", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.claims && data.claims.length > 0) {
+                    let html = `<h3>Found ${data.total_claims} claims:</h3>`;
+                    
+                    data.claims.forEach((claim, index) => {
+                        const verification = claim.verification;
+                        const statusClass = `status-${verification.verified}`;
+                        
+                        html += `
+                            <div class="claim-item">
+                                <div class="claim-text">${claim.claim}</div>
+                                <div class="verification-status ${statusClass}">${verification.verified.toUpperCase()}</div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-level" style="width: ${verification.confidence * 100}%"></div>
+                                </div>
+                                <div>${verification.explanation}</div>
+                                
+                                <div class="reason">
+                                    <strong>Reason:</strong> ${verification.reason}
+                                </div>
+                                
+                                ${verification.related_facts.length > 0 ? `
+                                    <div class="related-facts">
+                                        <strong>Related Facts:</strong>
+                                        ${verification.related_facts.map(fact => `<div class="fact-item">${fact}</div>`).join('')}
+                                    </div>
+                                ` : ''}
+                                
+                                ${verification.counter_arguments && verification.counter_arguments.length > 0 ? `
+                                    <div class="counter-arguments">
+                                        <strong>Counter Arguments:</strong>
+                                        ${verification.counter_arguments.map(arg => `<div class="counter-argument-item">${arg}</div>`).join('')}
+                                    </div>
+                                ` : ''}
+                                
+                                ${verification.sources.length > 0 ? `
+                                    <div class="sources">
+                                        <strong>Sources:</strong> ${verification.sources.join(', ')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    });
+                    
+                    resultsDiv.innerHTML = html;
+                } else {
+                    resultsDiv.textContent = "No claims found in the text.";
+                }
+            } catch (error) {
+                resultsDiv.textContent = `Error: ${error.message}`;
+                console.error("Error:", error);
+            }
+        }
+        
+        function testClimateClaims() {
+            const text = document.getElementById('climateText').value;
+            analyzeClaims(text, 'climateResult');
+        }
+        
+        function testVaccineClaims() {
+            const text = document.getElementById('vaccineText').value;
+            analyzeClaims(text, 'vaccineResult');
+        }
+        
+        function testCovidClaims() {
+            const text = document.getElementById('covidText').value;
+            analyzeClaims(text, 'covidResult');
+        }
+        
+        function testCustomClaims() {
+            const text = document.getElementById('customText').value;
+            if (!text.trim()) {
+                document.getElementById('customResult').textContent = "Please enter some text to analyze.";
+                return;
+            }
+            analyzeClaims(text, 'customResult');
+        }
+    </script>
+</body>
+</html> 

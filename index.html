@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DebateSphere - Fact-Checking Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .results {
+            margin-top: 30px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .claim-item {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .claim-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .claim-percentage {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .verification-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .status-true {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .status-false {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .status-partially {
+            background-color: #f39c12;
+            color: white;
+        }
+        .status-misleading {
+            background-color: #9b59b6;
+            color: white;
+        }
+        .status-unknown {
+            background-color: #95a5a6;
+            color: white;
+        }
+        .confidence {
+            margin-bottom: 10px;
+        }
+        .confidence-bar {
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .confidence-level {
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 5px;
+        }
+        .explanation, .related-facts, .sources, .counter-arguments, .reason {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+        .explanation h4, .related-facts h4, .sources h4, .counter-arguments h4, .reason h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .audio-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .audio-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .record-button {
+            background-color: #e74c3c;
+        }
+        .record-button:hover {
+            background-color: #c0392b;
+        }
+        .record-button.recording {
+            background-color: #c0392b;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .audio-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            min-height: 20px;
+        }
+        .audio-status.recording {
+            background-color: #fde8e8;
+            color: #e74c3c;
+        }
+        .audio-status.processing {
+            background-color: #e8f4fd;
+            color: #3498db;
+        }
+        .audio-status.error {
+            background-color: #fde8e8;
+            color: #e74c3c;
+        }
+        .audio-status.success {
+            background-color: #e8fde8;
+            color: #2ecc71;
+        }
+        .audio-visualizer {
+            width: 100%;
+            height: 60px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+        .audio-visualizer.active {
+            display: block;
+        }
+        .audio-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, #3498db, #2980b9);
+            opacity: 0.7;
+            transform-origin: bottom;
+            animation: wave 1s ease-in-out infinite alternate;
+        }
+        @keyframes wave {
+            0% { transform: scaleY(0.3); }
+            100% { transform: scaleY(0.7); }
+        }
+        .format-info {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .format-info h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .format-info ul {
+            margin-bottom: 0;
+        }
+        .format-info li {
+            margin-bottom: 5px;
+        }
+        .mic-select-container {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        .mic-select-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        #mic-select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 14px;
+        }
+        #mic-select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-balance-scale"></i> DebateSphere</h1>
+            <p>Analyze and verify claims in real-time</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <div class="microphone-selection">
+                    <label for="microphone-select">Select Microphone:</label>
+                    <select id="microphone-select">
+                        <option value="">Loading microphones...</option>
+                    </select>
+                </div>
+                
+                <div class="recording-controls">
+                    <button id="start-recording" class="btn primary">
+                        <i class="fas fa-microphone"></i> Start Recording
+                    </button>
+                    <button id="stop-recording" class="btn secondary" disabled>
+                        <i class="fas fa-stop"></i> Stop Recording
+                    </button>
+                </div>
+                
+                <div class="text-input">
+                    <textarea id="text-input" placeholder="Or type your text here..."></textarea>
+                    <button id="analyze-text" class="btn primary">
+                        <i class="fas fa-search"></i> Analyze Text
+                    </button>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <h2>Analysis Results</h2>
+                <div id="loading" class="hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing your text...</p>
+    </div>
+                
+                <div id="transcript-container" class="hidden">
+                    <h3>Transcript</h3>
+                    <div id="transcript"></div>
+                </div>
+                
+                <div id="claims-container" class="hidden">
+                    <h3>Identified Claims</h3>
+                    <div id="claims-list"></div>
+                </div>
+                
+                <div id="verification-container" class="hidden">
+                    <h3>Claim Verification</h3>
+                    <div id="verification-results"></div>
+                </div>
+                
+                <div id="sources-container" class="hidden">
+                    <h3>Sources</h3>
+                    <div id="sources-list"></div>
+                                    </div>
+                                </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 DebateSphere - A platform for fact-checking and debate analysis</p>
+        </footer>
+                            </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

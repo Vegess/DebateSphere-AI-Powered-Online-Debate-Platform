@@ -1,0 +1,305 @@
+/* Global Styles */
+:root {
+    --primary-color: #4a6fa5;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --verified-color: #28a745;
+    --likely-color: #17a2b8;
+    --unlikely-color: #ffc107;
+    --false-color: #dc3545;
+    --unknown-color: #6c757d;
+    --error-color: #dc3545;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+header p {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+/* Main Content Styles */
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 768px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Input Section Styles */
+.input-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.microphone-selection {
+    margin-bottom: 20px;
+}
+
+.microphone-selection label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.microphone-selection select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.recording-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.text-input {
+    margin-top: 20px;
+}
+
+.text-input textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 10px;
+    font-family: inherit;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: #3a5a8c;
+}
+
+.btn.secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn.secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Results Section Styles */
+.results-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.results-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.results-section h3 {
+    color: var(--dark-color);
+    margin: 20px 0 10px;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid var(--primary-color);
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Claim Styles */
+.claim-item {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.claim-text {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.claim-percentage {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.verification-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.status-verified {
+    background-color: var(--verified-color);
+    color: white;
+}
+
+.status-likely {
+    background-color: var(--likely-color);
+    color: white;
+}
+
+.status-unlikely {
+    background-color: var(--unlikely-color);
+    color: #333;
+}
+
+.status-false {
+    background-color: var(--false-color);
+    color: white;
+}
+
+.status-unknown {
+    background-color: var(--unknown-color);
+    color: white;
+}
+
+.status-error {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.confidence {
+    margin-bottom: 15px;
+}
+
+.confidence-bar {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.confidence-level {
+    height: 100%;
+    background-color: var(--primary-color);
+}
+
+.explanation, .reason {
+    margin-bottom: 15px;
+}
+
+.explanation h4, .reason h4 {
+    margin-bottom: 5px;
+    color: var(--dark-color);
+}
+
+.related-facts, .counter-arguments, .sources {
+    margin-bottom: 15px;
+}
+
+.related-facts h4, .counter-arguments h4, .sources h4 {
+    margin-bottom: 5px;
+    color: var(--dark-color);
+}
+
+.related-facts ul, .counter-arguments ul {
+    padding-left: 20px;
+}
+
+.related-facts li, .counter-arguments li {
+    margin-bottom: 5px;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+    color: var(--secondary-color);
+    border-top: 1px solid #e1e4e8;
+} 
